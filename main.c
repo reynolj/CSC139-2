@@ -263,7 +263,6 @@ void* ThFindProdWithSemaphore(void *param) {
         }
     }
     gThreadProd[threadNum] = prod;
-    gThreadDone[threadNum] = true;
 
     prod == 0 ? sem_post(&completed) : NULL;
 
