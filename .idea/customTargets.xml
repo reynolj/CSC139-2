@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CLionExternalBuildManager">
+    <target id="93088984-c879-470f-b721-8b432f0b8d1f" name="build139-2" projectName="HMWK2">
+      <configuration id="3454ab6a-f892-4918-8e89-0fed6095c402" name="build139-2" toolchainName="Cygwin">
+        <build type="TOOL">
+          <tool actionId="Tool_External Tools_build139" />
+        </build>
+      </configuration>
+    </target>
+  </component>
+</project>

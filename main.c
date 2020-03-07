@@ -46,7 +46,7 @@ void CalculateIndices(int arraySize, int thrdCnt, int indices[MAX_THREADS][3]); 
 int GetRand(int min, int max);//Get a random number between min and max
 
 //Helper Methods
-void InitThreads(pthread_t* tid, pthread_attr_t* attr, int (*indices)[3]); //Initializes attributes and creates threads
+void InitThreads(pthread_t* tid, pthread_attr_t* attr, int (*indices)[3], void * func); //Initializes attributes and creates threads
 void printIndices(int (*indices)[3]); //Displays indices array. Used for debugging.
 
 //Timing functions
@@ -99,7 +99,7 @@ int main(int argc, char *argv[]){
 	SetTime();
 
     // Initialize attributes, and create threads
-    InitThreads(tid, attr, indices);
+    InitThreads(tid,attr,indices,&ThFindProd);
 
     // Parent waits for all threads using pthread_join
     for (i = 0; i < gThreadCount; i++)
@@ -115,7 +115,7 @@ int main(int argc, char *argv[]){
 	SetTime();
 
     // Initialize attributes, and create threads
-    InitThreads(tid,attr,indices);
+    InitThreads(tid,attr,indices,&ThFindProd);
 
     // Parent continually check on all child threads
     bool foundZero, allDone;
@@ -152,19 +152,23 @@ int main(int argc, char *argv[]){
 	/*********************************************MT: With Semaphores**************************************************/
 
 	InitSharedVars();
-    // Initialize your semaphores here
-
-	SetTime();
-
-	// Initialize threads, create threads, and then make the parent wait on the "completed" semaphore
-	// The thread start function is ThFindProdWithSemaphore
-	// Don't forget to properly initialize shared variables and semaphores using sem_init
-
+	// Initialize semaphores
+    sem_init(&mutex, 0, 1);
+    sem_init(&completed, 0, 1);
+    SetTime();
+    // Initialize and create threads
+    InitThreads(tid,attr,indices,&ThFindProdWithSemaphore);
+    // Parent waits on the "completed" semaphore
+	sem_wait(&completed);
+    for (i = 0; i < gThreadCount; i++)
+    {
+        pthread_join(tid[i], NULL);
+    }
     prod = ComputeTotalProduct();
 	printf("Threaded multiplication with parent waiting on a semaphore completed in %ld ms. Min = %d\n", GetTime(), prod);
 }
 
-void InitThreads(pthread_t* tid, pthread_attr_t* attr, int (*indices)[3]){
+void InitThreads(pthread_t* tid, pthread_attr_t* attr, int (*indices)[3], void * func){
     int i;
 
     for (i = 0; i < gThreadCount; i++)
@@ -172,7 +176,7 @@ void InitThreads(pthread_t* tid, pthread_attr_t* attr, int (*indices)[3]){
         // Initialize thread attributes
         pthread_attr_init(&attr[i]);
         // Create threads
-        pthread_create(&tid[i], &attr[i], ThFindProd, (void*) indices[i]);
+        pthread_create(&tid[i], &attr[i], func, (void*) indices[i]);
     }
 }
 
@@ -240,7 +244,32 @@ void* ThFindProd(void *param) {
 // post the "completed" semaphore if it is the last thread to be done
 // Don't forget to protect access to gDoneThreadCount with the "mutex" semaphore
 void* ThFindProdWithSemaphore(void *param) {
+    int threadNum   = ((int*)param)[0];
+    int start       = ((int*)param)[1];
+    int end         = ((int*)param)[2];
+    int prod        = 1;
+    int i;
 
+    for (i = start; i <= end; i++)
+    {
+        if (gData[i] == 0)
+        {
+            prod = 0;
+            break;
+        }
+        else
+        {
+            prod = (prod * gData[i]) % NUM_LIMIT;
+        }
+    }
+    gThreadProd[threadNum] = prod;
+    gThreadDone[threadNum] = true;
+
+    prod == 0 ? sem_post(&completed) : NULL;
+
+    sem_wait(&mutex);
+    ++gDoneThreadCount == gThreadCount-1 ? sem_post(&completed) : NULL;
+    sem_post(&mutex);
 }
 
 int ComputeTotalProduct() {
