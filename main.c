@@ -184,7 +184,7 @@ int main(int argc, char *argv[]){
         pthread_join(tid[i], NULL);
     }
     prod = ComputeTotalProduct();
-	printf("Threaded multiplication with parent waiting on a semaphore completed in %ld ms. Min = %d\n", GetTime(), prod);
+	printf("Threaded multiplication with parent waiting on a semaphore completed in %ld ms. Product = %d\n", GetTime(), prod);
 }
 
 //void InitThreads(pthread_t* tid, pthread_attr_t* attr, int (*indices)[3], void* (*func)){
