@@ -1,0 +1,50 @@
+Name                                     NumberOfCores
+Intel(R) Core(TM) i7-3820 CPU @ 3.60GHz  4
+
+"Test #1"
+
+C:\Users\Jake Reynolds\Desktop\CSC139-2>hmwk2.exe 100000000 2 50000001
+Sequential multiplication completed in 269 ms. Product = 0
+Threaded multiplication with parent waiting for all children completed in 251 ms. Product = 0
+Threaded multiplication with parent continually checking on children completed in 0 ms. Product = 0
+Threaded multiplication with parent waiting on a semaphore completed in 279 ms. Min = 0
+
+"Test #2"
+
+C:\Users\Jake Reynolds\Desktop\CSC139-2>hmwk2 100000000 4 75000001
+Sequential multiplication completed in 344 ms. Product = 0
+Threaded multiplication with parent waiting for all children completed in 138 ms. Product = 0
+Threaded multiplication with parent continually checking on children completed in 1 ms. Product = 0
+Threaded multiplication with parent waiting on a semaphore completed in 125 ms. Min = 0
+
+"Test #3"
+
+C:\Users\Jake Reynolds\Desktop\CSC139-2>hmwk2 100000000 8 88000000
+Sequential multiplication completed in 438 ms. Product = 0
+Threaded multiplication with parent waiting for all children completed in 68 ms. Product = 0
+Threaded multiplication with parent continually checking on children completed in 5 ms. Product = 0
+Threaded multiplication with parent waiting on a semaphore completed in 151 ms. Min = 0
+
+"Test #4"
+
+C:\Users\Jake Reynolds\Desktop\CSC139-2>hmwk2 100000000 2 -1
+Sequential multiplication completed in 466 ms. Product = 4410
+Threaded multiplication with parent waiting for all children completed in 237 ms. Product = 4410
+Threaded multiplication with parent continually checking on children completed in 233 ms. Product = 4410
+Threaded multiplication with parent waiting on a semaphore completed in 235 ms. Min = 4410
+
+"Test #5"
+
+C:\Users\Jake Reynolds\Desktop\CSC139-2>hmwk2 100000000 4 -1
+Sequential multiplication completed in 518 ms. Product = 4410
+Threaded multiplication with parent waiting for all children completed in 126 ms. Product = 4410
+Threaded multiplication with parent continually checking on children completed in 131 ms. Product = 4410
+Threaded multiplication with parent waiting on a semaphore completed in 126 ms. Min = 4410
+
+"Test #6"
+
+C:\Users\Jake Reynolds\Desktop\CSC139-2>hmwk2 100000000 8 -1
+Sequential multiplication completed in 489 ms. Product = 4410
+Threaded multiplication with parent waiting for all children completed in 95 ms. Product = 4410
+Threaded multiplication with parent continually checking on children completed in 96 ms. Product = 4410
+Threaded multiplication with parent waiting on a semaphore completed in 95 ms. Min = 4410
