@@ -2,7 +2,8 @@
  * Reynolds, Jake
  * CSC 139 Section 5
  * OSs Tested on: Windows 10, Linux
- * Windows Machine:
+ * Windows 10 Desktop:
+ * Windows 10 Laptop:
  * Linux Machine:
 */
 
@@ -46,7 +47,7 @@ void CalculateIndices(int arraySize, int thrdCnt, int indices[MAX_THREADS][3]); 
 int GetRand(int min, int max);//Get a random number between min and max
 
 //Helper Methods
-void InitThreads(pthread_t* tid, pthread_attr_t* attr, int (*indices)[3], void * func); //Initializes attributes and creates threads
+//void InitThreads(pthread_t* tid, pthread_attr_t* attr, int (*indices)[3], void * func); //Initializes attributes and creates threads
 void printIndices(int (*indices)[3]); //Displays indices array. Used for debugging.
 
 //Timing functions
@@ -99,7 +100,13 @@ int main(int argc, char *argv[]){
 	SetTime();
 
     // Initialize attributes, and create threads
-    InitThreads(tid,attr,indices,&ThFindProd);
+    for (i = 0; i < gThreadCount; i++)
+    {
+        // Initialize thread attributes
+        pthread_attr_init(&attr[i]);
+        // Create threads
+        pthread_create(&tid[i], &attr[i], ThFindProd, (void*) indices[i]);
+    }
 
     // Parent waits for all threads using pthread_join
     for (i = 0; i < gThreadCount; i++)
@@ -115,10 +122,16 @@ int main(int argc, char *argv[]){
 	SetTime();
 
     // Initialize attributes, and create threads
-    InitThreads(tid,attr,indices,&ThFindProd);
+    for (i = 0; i < gThreadCount; i++)
+    {
+        // Initialize thread attributes
+        pthread_attr_init(&attr[i]);
+        // Create threads
+        pthread_create(&tid[i], &attr[i], ThFindProd, (void*) indices[i]);
+    }
 
     // Parent continually check on all child threads
-    bool foundZero, allDone;
+    volatile bool foundZero, allDone;
     do{
         foundZero = false;
         allDone = true;
@@ -140,7 +153,7 @@ int main(int argc, char *argv[]){
                 }
                 else
                 {
-                    pthread_cancel(tid[i]);
+                    pthread_join(tid[i], NULL);
                 }
             }
         }
@@ -157,7 +170,13 @@ int main(int argc, char *argv[]){
     sem_init(&completed, 0, 1);
     SetTime();
     // Initialize and create threads
-    InitThreads(tid,attr,indices,&ThFindProdWithSemaphore);
+    for (i = 0; i < gThreadCount; i++)
+    {
+        // Initialize thread attributes
+        pthread_attr_init(&attr[i]);
+        // Create threads
+        pthread_create(&tid[i], &attr[i], ThFindProdWithSemaphore, (void*) indices[i]);
+    }
     // Parent waits on the "completed" semaphore
 	sem_wait(&completed);
     for (i = 0; i < gThreadCount; i++)
@@ -168,17 +187,17 @@ int main(int argc, char *argv[]){
 	printf("Threaded multiplication with parent waiting on a semaphore completed in %ld ms. Min = %d\n", GetTime(), prod);
 }
 
-void InitThreads(pthread_t* tid, pthread_attr_t* attr, int (*indices)[3], void * func){
-    int i;
-
-    for (i = 0; i < gThreadCount; i++)
-    {
-        // Initialize thread attributes
-        pthread_attr_init(&attr[i]);
-        // Create threads
-        pthread_create(&tid[i], &attr[i], func, (void*) indices[i]);
-    }
-}
+//void InitThreads(pthread_t* tid, pthread_attr_t* attr, int (*indices)[3], void* (*func)){
+//    int i;
+//
+//    for (i = 0; i < gThreadCount; i++)
+//    {
+//        // Initialize thread attributes
+//        pthread_attr_init(&attr[i]);
+//        // Create threads
+//        pthread_create(&tid[i], &attr[i], func, (void*) indices[i]);
+//    }
+//}
 
 void printIndices(int (*indices)[3]){
     int i;
@@ -234,6 +253,7 @@ void* ThFindProd(void *param) {
     }
 	gThreadProd[threadNum] = prod;
 	gThreadDone[threadNum] = true;
+	return NULL;
 }
 
 // Write a thread function that computes the product of all the elements in one division of the array mod NUM_LIMIT
@@ -264,11 +284,17 @@ void* ThFindProdWithSemaphore(void *param) {
     }
     gThreadProd[threadNum] = prod;
 
-    prod == 0 ? sem_post(&completed) : NULL;
+    if (prod == 0) {
+        sem_post(&completed);
+    }
 
     sem_wait(&mutex);
-    ++gDoneThreadCount == gThreadCount-1 ? sem_post(&completed) : NULL;
+    if (++gDoneThreadCount == gThreadCount-1)
+    {
+        sem_post(&completed);
+    }
     sem_post(&mutex);
+    return NULL;
 }
 
 int ComputeTotalProduct() {
