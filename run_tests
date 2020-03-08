@@ -1,0 +1,16 @@
+#!/bin/bash
+#Program 2 Script
+
+
+echo
+echo "hwmk 5 10 123"
+echo
+producer 5 10 123
+echo
+echo "producer 10 5 123"
+echo
+producer 10 5 123
+echo 
+echo "producer 10 10 123"
+echo
+producer 10 10 123
