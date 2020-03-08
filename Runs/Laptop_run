@@ -1,0 +1,59 @@
+
+C:\Users\Jake Reynolds\CLionProjects\CSC139-2>wmic cpu get name, numberofcores
+Name                                      NumberOfCores
+Intel(R) Core(TM) i5-4200U CPU @ 1.60GHz  2
+
+
+C:\Users\Jake Reynolds\CLionProjects\CSC139-2>echo "Test #1"
+"Test #1"
+
+C:\Users\Jake Reynolds\CLionProjects\CSC139-2>hmwk2.exe 100000000 2 50000001
+Sequential multiplication completed in 286 ms. Product = 0
+Threaded multiplication with parent waiting for all children completed in 292 ms. Product = 0
+Threaded multiplication with parent continually checking on children completed in 1 ms. Product = 0
+Threaded multiplication with parent waiting on a semaphore completed in 318 ms. Product = 0
+
+C:\Users\Jake Reynolds\CLionProjects\CSC139-2>echo "Test #2"
+"Test #2"
+
+C:\Users\Jake Reynolds\CLionProjects\CSC139-2>hmwk2 100000000 4 75000001
+Sequential multiplication completed in 430 ms. Product = 0
+Threaded multiplication with parent waiting for all children completed in 164 ms. Product = 0
+Threaded multiplication with parent continually checking on children completed in 0 ms. Product = 0
+Threaded multiplication with parent waiting on a semaphore completed in 289 ms. Product = 0
+
+C:\Users\Jake Reynolds\CLionProjects\CSC139-2>echo "Test #3"
+"Test #3"
+
+C:\Users\Jake Reynolds\CLionProjects\CSC139-2>hmwk2 100000000 8 88000000
+Sequential multiplication completed in 504 ms. Product = 0
+Threaded multiplication with parent waiting for all children completed in 184 ms. Product = 0
+Threaded multiplication with parent continually checking on children completed in 165 ms. Product = 0
+Threaded multiplication with parent waiting on a semaphore completed in 169 ms. Product = 0
+
+C:\Users\Jake Reynolds\CLionProjects\CSC139-2>echo "Test #4"
+"Test #4"
+
+C:\Users\Jake Reynolds\CLionProjects\CSC139-2>hmwk2 100000000 2 -1
+Sequential multiplication completed in 586 ms. Product = 6177
+Threaded multiplication with parent waiting for all children completed in 316 ms. Product = 6177
+Threaded multiplication with parent continually checking on children completed in 318 ms. Product = 6177
+Threaded multiplication with parent waiting on a semaphore completed in 313 ms. Product = 6177
+
+C:\Users\Jake Reynolds\CLionProjects\CSC139-2>echo "Test #5"
+"Test #5"
+
+C:\Users\Jake Reynolds\CLionProjects\CSC139-2>hmwk2 100000000 4 -1
+Sequential multiplication completed in 576 ms. Product = 6177
+Threaded multiplication with parent waiting for all children completed in 168 ms. Product = 6177
+Threaded multiplication with parent continually checking on children completed in 235 ms. Product = 6177
+Threaded multiplication with parent waiting on a semaphore completed in 179 ms. Product = 6177
+
+C:\Users\Jake Reynolds\CLionProjects\CSC139-2>echo "Test #6"
+"Test #6"
+
+C:\Users\Jake Reynolds\CLionProjects\CSC139-2>hmwk2 100000000 8 -1
+Sequential multiplication completed in 583 ms. Product = 6177
+Threaded multiplication with parent waiting for all children completed in 198 ms. Product = 6177
+Threaded multiplication with parent continually checking on children completed in 310 ms. Product = 6177
+Threaded multiplication with parent waiting on a semaphore completed in 249 ms. Product = 6177
