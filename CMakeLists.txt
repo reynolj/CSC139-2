@@ -3,4 +3,4 @@ project(HMWK2 C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(HMWK2 main.c)
+add_executable(HMWK2 MTFindProd.c)

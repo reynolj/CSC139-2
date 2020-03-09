@@ -2,14 +2,14 @@
  * Reynolds, Jake
  * CSC 139 Section 5
  * OSs Tested on: Windows 10, Linux
- * Windows 10 Desktop:
- * Windows 10 Laptop:
+ * Windows 10 Desktop: Intel(R) Core(TM) i7-3820 CPU @ 3.60GHz,  4 cores
+ * Windows 10 Laptop:  Intel(R) Core(TM) i5-4200U CPU @ 1.60GHz, 2 cores
  * Linux Machine:
 */
 
 /*
  * Compile options:
- * g++ -O3 main.c -o hmwk2 -lpthread
+ * g++ -O3 MTFindProd.c -o MTFindProd -lpthread
 */
 #include <stdio.h>
 #include <stdlib.h>
@@ -40,14 +40,13 @@ sem_t mutex; //Binary semaphore to protect the shared variable gDoneThreadCount
 int SqFindProd(int size); //Sequential FindProduct (no threads) computes the product of all the elements in the array mod NUM_LIMIT
 void* ThFindProd(void *param); //Thread FindProduct but without semaphores
 void* ThFindProdWithSemaphore(void *param); //Thread FindProduct with semaphores
-int ComputeTotalProduct(); // Multiply the division products to compute the total modular product
-void InitSharedVars();
+int ComputeTotalProduct(); //Multiply the division products to compute the total modular product
+void InitSharedVars(); //Initializes default values to gThreadDone, gThreadProd, gDoneThreadCount
 void GenerateInput(int size, int indexForZero); //Generate the input array
 void CalculateIndices(int arraySize, int thrdCnt, int indices[MAX_THREADS][3]); //Calculate the indices to divide the array into T divisions, one division per thread
-int GetRand(int min, int max);//Get a random number between min and max
+int GetRand(int min, int max); //Get a random number between min and max
 
-//Helper Methods
-//void InitThreads(pthread_t* tid, pthread_attr_t* attr, int (*indices)[3], void * func); //Initializes attributes and creates threads
+//Debugging Functions
 void printIndices(int (*indices)[3]); //Displays indices array. Used for debugging.
 
 //Timing functions
@@ -187,18 +186,6 @@ int main(int argc, char *argv[]){
 	printf("Threaded multiplication with parent waiting on a semaphore completed in %ld ms. Product = %d\n", GetTime(), prod);
 }
 
-//void InitThreads(pthread_t* tid, pthread_attr_t* attr, int (*indices)[3], void* (*func)){
-//    int i;
-//
-//    for (i = 0; i < gThreadCount; i++)
-//    {
-//        // Initialize thread attributes
-//        pthread_attr_init(&attr[i]);
-//        // Create threads
-//        pthread_create(&tid[i], &attr[i], func, (void*) indices[i]);
-//    }
-//}
-
 void printIndices(int (*indices)[3]){
     int i;
     printf("%-5s%-10s%-10s\n", "Thd", "Start", "End");
@@ -208,7 +195,7 @@ void printIndices(int (*indices)[3]){
     }
 }
 
-// Write a regular sequential function to multiply all the elements in gData mod NUM_LIMIT
+// A regular sequential function to multiply all the elements in gData mod NUM_LIMIT
 // REMEMBER TO MOD BY NUM_LIMIT AFTER EACH MULTIPLICATION TO PREVENT YOUR PRODUCT VARIABLE FROM OVERFLOWING
 int SqFindProd(int size) {
     int i, prod = 1;
@@ -229,7 +216,7 @@ int SqFindProd(int size) {
     return prod;
 }
 
-// Write a thread function that computes the product of all the elements in one division of the array mod NUM_LIMIT
+// Thread function that computes the product of all the elements in one division of the array mod NUM_LIMIT
 // REMEMBER TO MOD BY NUM_LIMIT AFTER EACH MULTIPLICATION TO PREVENT YOUR PRODUCT VARIABLE FROM OVERFLOWING
 // When it is done, this function should store the product in gThreadProd[threadNum] and set gThreadDone[threadNum] to true
 void* ThFindProd(void *param) {
@@ -256,7 +243,7 @@ void* ThFindProd(void *param) {
 	return NULL;
 }
 
-// Write a thread function that computes the product of all the elements in one division of the array mod NUM_LIMIT
+// Thread function that computes the product of all the elements in one division of the array mod NUM_LIMIT
 // REMEMBER TO MOD BY NUM_LIMIT AFTER EACH MULTIPLICATION TO PREVENT YOUR PRODUCT VARIABLE FROM OVERFLOWING
 // When it is done, this function should store the product in gThreadProd[threadNum]
 // If the product value in this division is zero, this function should post the "completed" semaphore
@@ -319,7 +306,7 @@ void InitSharedVars() {
 	gDoneThreadCount = 0;
 }
 
-// Write a function that fills the gData array with random numbers between 1 and MAX_RANDOM_NUMBER
+// Function that fills the gData array with random numbers between 1 and MAX_RANDOM_NUMBER
 // If indexForZero is valid and non-negative, set the value at that index to zero
 void GenerateInput(int size, int indexForZero) {
 	int i;
