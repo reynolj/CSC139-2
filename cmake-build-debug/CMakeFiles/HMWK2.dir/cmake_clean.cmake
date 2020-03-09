@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/HMWK2.dir/main.c.o"
+  "CMakeFiles/HMWK2.dir/MTFindProd.c.o"
   "HMWK2.exe"
   "HMWK2.pdb"
   "libHMWK2.dll.a"

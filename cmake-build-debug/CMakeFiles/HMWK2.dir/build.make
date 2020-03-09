@@ -57,27 +57,27 @@ include CMakeFiles/HMWK2.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/HMWK2.dir/flags.make
 
-CMakeFiles/HMWK2.dir/main.c.o: CMakeFiles/HMWK2.dir/flags.make
-CMakeFiles/HMWK2.dir/main.c.o: ../main.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/cygdrive/c/Users/Jake Reynolds/CLionProjects/CSC139-2/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/HMWK2.dir/main.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/HMWK2.dir/main.c.o   -c "/cygdrive/c/Users/Jake Reynolds/CLionProjects/CSC139-2/main.c"
+CMakeFiles/HMWK2.dir/MTFindProd.c.o: CMakeFiles/HMWK2.dir/flags.make
+CMakeFiles/HMWK2.dir/MTFindProd.c.o: ../MTFindProd.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/cygdrive/c/Users/Jake Reynolds/CLionProjects/CSC139-2/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/HMWK2.dir/MTFindProd.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/HMWK2.dir/MTFindProd.c.o   -c "/cygdrive/c/Users/Jake Reynolds/CLionProjects/CSC139-2/MTFindProd.c"
 
-CMakeFiles/HMWK2.dir/main.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/HMWK2.dir/main.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "/cygdrive/c/Users/Jake Reynolds/CLionProjects/CSC139-2/main.c" > CMakeFiles/HMWK2.dir/main.c.i
+CMakeFiles/HMWK2.dir/MTFindProd.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/HMWK2.dir/MTFindProd.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "/cygdrive/c/Users/Jake Reynolds/CLionProjects/CSC139-2/MTFindProd.c" > CMakeFiles/HMWK2.dir/MTFindProd.c.i
 
-CMakeFiles/HMWK2.dir/main.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/HMWK2.dir/main.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "/cygdrive/c/Users/Jake Reynolds/CLionProjects/CSC139-2/main.c" -o CMakeFiles/HMWK2.dir/main.c.s
+CMakeFiles/HMWK2.dir/MTFindProd.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/HMWK2.dir/MTFindProd.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "/cygdrive/c/Users/Jake Reynolds/CLionProjects/CSC139-2/MTFindProd.c" -o CMakeFiles/HMWK2.dir/MTFindProd.c.s
 
 # Object files for target HMWK2
 HMWK2_OBJECTS = \
-"CMakeFiles/HMWK2.dir/main.c.o"
+"CMakeFiles/HMWK2.dir/MTFindProd.c.o"
 
 # External object files for target HMWK2
 HMWK2_EXTERNAL_OBJECTS =
 
-HMWK2.exe: CMakeFiles/HMWK2.dir/main.c.o
+HMWK2.exe: CMakeFiles/HMWK2.dir/MTFindProd.c.o
 HMWK2.exe: CMakeFiles/HMWK2.dir/build.make
 HMWK2.exe: CMakeFiles/HMWK2.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/cygdrive/c/Users/Jake Reynolds/CLionProjects/CSC139-2/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Linking C executable HMWK2.exe"

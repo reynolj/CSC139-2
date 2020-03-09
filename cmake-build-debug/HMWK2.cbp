@@ -74,7 +74,7 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/cygdrive/c/Users/Jake Reynolds/CLionProjects/CSC139-2/main.c">
+		<Unit filename="/cygdrive/c/Users/Jake Reynolds/CLionProjects/CSC139-2/MTFindProd.c">
 			<Option target="HMWK2"/>
 		</Unit>
 		<Unit filename="/cygdrive/c/Users/Jake Reynolds/CLionProjects/CSC139-2/CMakeLists.txt">

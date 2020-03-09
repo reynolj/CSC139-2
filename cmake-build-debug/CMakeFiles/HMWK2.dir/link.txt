@@ -1,1 +1,1 @@
-/usr/bin/cc -g  -Wl,--enable-auto-import CMakeFiles/HMWK2.dir/main.c.o  -o HMWK2.exe -Wl,--out-implib,libHMWK2.dll.a -Wl,--major-image-version,0,--minor-image-version,0 
+/usr/bin/cc -g  -Wl,--enable-auto-import CMakeFiles/HMWK2.dir/MTFindProd.c.o  -o HMWK2.exe -Wl,--out-implib,libHMWK2.dll.a -Wl,--major-image-version,0,--minor-image-version,0 

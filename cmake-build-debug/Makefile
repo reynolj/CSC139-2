@@ -123,32 +123,32 @@ HMWK2/fast:
 	$(MAKE) -f CMakeFiles/HMWK2.dir/build.make CMakeFiles/HMWK2.dir/build
 .PHONY : HMWK2/fast
 
-main.o: main.c.o
+MTFindProd.o: MTFindProd.c.o
 
-.PHONY : main.o
+.PHONY : MTFindProd.o
 
 # target to build an object file
-main.c.o:
-	$(MAKE) -f CMakeFiles/HMWK2.dir/build.make CMakeFiles/HMWK2.dir/main.c.o
-.PHONY : main.c.o
+MTFindProd.c.o:
+	$(MAKE) -f CMakeFiles/HMWK2.dir/build.make CMakeFiles/HMWK2.dir/MTFindProd.c.o
+.PHONY : MTFindProd.c.o
 
-main.i: main.c.i
+MTFindProd.i: MTFindProd.c.i
 
-.PHONY : main.i
+.PHONY : MTFindProd.i
 
 # target to preprocess a source file
-main.c.i:
-	$(MAKE) -f CMakeFiles/HMWK2.dir/build.make CMakeFiles/HMWK2.dir/main.c.i
-.PHONY : main.c.i
+MTFindProd.c.i:
+	$(MAKE) -f CMakeFiles/HMWK2.dir/build.make CMakeFiles/HMWK2.dir/MTFindProd.c.i
+.PHONY : MTFindProd.c.i
 
-main.s: main.c.s
+MTFindProd.s: MTFindProd.c.s
 
-.PHONY : main.s
+.PHONY : MTFindProd.s
 
 # target to generate assembly for a file
-main.c.s:
-	$(MAKE) -f CMakeFiles/HMWK2.dir/build.make CMakeFiles/HMWK2.dir/main.c.s
-.PHONY : main.c.s
+MTFindProd.c.s:
+	$(MAKE) -f CMakeFiles/HMWK2.dir/build.make CMakeFiles/HMWK2.dir/MTFindProd.c.s
+.PHONY : MTFindProd.c.s
 
 # Help Target
 help:
@@ -159,9 +159,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... HMWK2"
 	@echo "... edit_cache"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... MTFindProd.o"
+	@echo "... MTFindProd.i"
+	@echo "... MTFindProd.s"
 .PHONY : help
 
 

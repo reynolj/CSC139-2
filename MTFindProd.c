@@ -334,12 +334,12 @@ void GenerateInput(int size, int indexForZero) {
 // indices[i][1] should be set to the start index
 // indices[i][2] should be set to the end index
 void CalculateIndices(int arraySize, int thrdCnt, int indices[MAX_THREADS][3]) {
-    int i           =   0;
+    int i;
     int partOffset  =   arraySize / thrdCnt;
     int start       =   0;
     int end         =   partOffset-1;
 
-    for (/*NULL*/; i < thrdCnt; i++, start += partOffset, end += partOffset)
+    for (i = 0; i < thrdCnt; i++, start += partOffset, end += partOffset)
     {
         indices[i][0] = i;
         indices[i][1] = start;
