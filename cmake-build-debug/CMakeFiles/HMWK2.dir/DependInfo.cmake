@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/cygdrive/c/Users/Jake Reynolds/CLionProjects/CSC139-2/MTFindProd.c" "/cygdrive/c/Users/Jake Reynolds/CLionProjects/CSC139-2/cmake-build-debug/CMakeFiles/HMWK2.dir/MTFindProd.c.o"
+  "C:/Users/Jake Reynolds/CLionProjects/CSC139-2/MTFindProd.c" "C:/Users/Jake Reynolds/CLionProjects/CSC139-2/cmake-build-debug/CMakeFiles/HMWK2.dir/MTFindProd.c.obj"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

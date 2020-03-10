@@ -48,6 +48,7 @@ int GetRand(int min, int max); //Get a random number between min and max
 
 //Debugging Functions
 void printIndices(int (*indices)[3]); //Displays indices array. Used for debugging.
+void printProds();
 
 //Timing functions
 long GetMilliSecondTime(struct timeb timeBuf);
@@ -171,19 +172,20 @@ int main(int argc, char *argv[]){
     // Initialize and create threads
     for (i = 0; i < gThreadCount; i++)
     {
-        // Initialize thread attributes
         pthread_attr_init(&attr[i]);
-        // Create threads
         pthread_create(&tid[i], &attr[i], ThFindProdWithSemaphore, (void*) indices[i]);
     }
     // Parent waits on the "completed" semaphore
 	sem_wait(&completed);
     for (i = 0; i < gThreadCount; i++)
     {
-        pthread_join(tid[i], NULL);
+        pthread_cancel(tid[i]);
     }
     prod = ComputeTotalProduct();
 	printf("Threaded multiplication with parent waiting on a semaphore completed in %ld ms. Product = %d\n", GetTime(), prod);
+    sem_destroy(&mutex);
+	sem_destroy(&completed);
+	printProds();
 }
 
 void printIndices(int (*indices)[3]){
@@ -192,6 +194,15 @@ void printIndices(int (*indices)[3]){
     for (i = 0; i < gThreadCount; i++)
     {
         printf("%-5d%-10d%-10d\n", indices[i][0], indices[i][1], indices[i][2]);
+    }
+}
+
+void printProds(){
+    int i;
+    printf("%-5s%-10s\n", "Thd", "Prod");
+    for (i = 0; i < gThreadCount; i++)
+    {
+        printf("%-5d%-10d\n", i, gThreadProd[i]);
     }
 }
 
@@ -256,9 +267,15 @@ void* ThFindProdWithSemaphore(void *param) {
     int end         = ((int*)param)[2];
     int prod        = 1;
     int i;
+//    int sval;
 
     for (i = start; i <= end; i++)
     {
+//        sem_getvalue(&completed, &sval);
+//        if (sval != 0){
+//            return NULL;
+//        }
+
         if (gData[i] == 0)
         {
             prod = 0;
@@ -274,6 +291,11 @@ void* ThFindProdWithSemaphore(void *param) {
     if (prod == 0) {
         sem_post(&completed);
     }
+
+//    sem_getvalue(&completed, &sval);
+//    if (sval != 0){
+//        return NULL;
+//    }
 
     sem_wait(&mutex);
     if (++gDoneThreadCount == gThreadCount-1)
@@ -292,7 +314,6 @@ int ComputeTotalProduct() {
 		prod *= gThreadProd[i];
 		prod %= NUM_LIMIT;
 	}
-
 	return prod;
 }
 

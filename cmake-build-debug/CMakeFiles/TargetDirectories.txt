@@ -1,3 +1,3 @@
-/cygdrive/c/Users/Jake Reynolds/CLionProjects/CSC139-2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/cygdrive/c/Users/Jake Reynolds/CLionProjects/CSC139-2/cmake-build-debug/CMakeFiles/HMWK2.dir
-/cygdrive/c/Users/Jake Reynolds/CLionProjects/CSC139-2/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Jake Reynolds/CLionProjects/CSC139-2/cmake-build-debug/CMakeFiles/HMWK2.dir
+C:/Users/Jake Reynolds/CLionProjects/CSC139-2/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Jake Reynolds/CLionProjects/CSC139-2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
