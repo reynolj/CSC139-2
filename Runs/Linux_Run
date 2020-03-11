@@ -1,0 +1,70 @@
+Script started on Wed 11 Mar 2020 11:28:45 AM PDT
+[reynolj@enif:21]> lps[K[Kscpu
+Architecture:          x86_64
+CPU op-mode(s):        32-bit, 64-bit
+Byte Order:            Little Endian
+CPU(s):                8
+On-line CPU(s) list:   0-7
+Thread(s) per core:    2
+Core(s) per socket:    4
+Socket(s):             1
+NUMA node(s):          1
+Vendor ID:             GenuineIntel
+CPU family:            6
+Model:                 94
+Model name:            Intel(R) Core(TM) i7-6700 CPU @ 3.40GHz
+Stepping:              3
+CPU MHz:               800.000
+BogoMIPS:              6816.06
+Virtualization:        VT-x
+L1d cache:             32K
+L1i cache:             32K
+L2 cache:              256K
+L3 cache:              8192K
+NUMA node0 CPU(s):     0-7
+[reynolj@enif:22]> echo "Test #1"
+Test #1
+[reynolj@enif:23]> MTFindProd 100000000 2 50000001
+Sequential multiplication completed in 185 ms. Product = 0
+Threaded multiplication with parent waiting for all children completed in 192 ms. Product = 0
+Threaded multiplication with parent continually checking on children completed in 0 ms. Product = 0
+Threaded multiplication with parent waiting on a semaphore completed in 0 ms. Product = 0
+[reynolj@enif:24]> echo "Test #2"
+Test #2
+[reynolj@enif:25]> MTFindProd 100000000 4 75000001
+Sequential multiplication completed in 286 ms. Product = 0
+Threaded multiplication with parent waiting for all children completed in 97 ms. Product = 0
+Threaded multiplication with parent continually checking on children completed in 1 ms. Product = 0
+Threaded multiplication with parent waiting on a semaphore completed in 0 ms. Product = 0
+[reynolj@enif:26]> echo "Test #3"
+Test #3
+[reynolj@enif:27]> MTFindProd 100000000 8 88000000
+Sequential multiplication completed in 336 ms. Product = 0
+Threaded multiplication with parent waiting for all children completed in 52 ms. Product = 0
+Threaded multiplication with parent continually checking on children completed in 23 ms. Product = 0
+Threaded multiplication with parent waiting on a semaphore completed in 10 ms. Product = 0
+[reynolj@enif:28]> echo "Test #4"
+Test #4
+[reynolj@enif:29]> MTFindProd 100000000 2 -1
+Sequential multiplication completed in 381 ms. Product = 1916
+Threaded multiplication with parent waiting for all children completed in 195 ms. Product = 1916
+Threaded multiplication with parent continually checking on children completed in 196 ms. Product = 1916
+Threaded multiplication with parent waiting on a semaphore completed in 191 ms. Product = 1916
+[reynolj@enif:30]> echo "Test #5"
+Test #5
+[reynolj@enif:31]> MTFindProd 100000000 4 -1
+Sequential multiplication completed in 373 ms. Product = 1916
+Threaded multiplication with parent waiting for all children completed in 98 ms. Product = 1916
+Threaded multiplication with parent continually checking on children completed in 98 ms. Product = 1916
+Threaded multiplication with parent waiting on a semaphore completed in 97 ms. Product = 1916
+[reynolj@enif:32]> echo "Test #6"
+Test #6
+[reynolj@enif:33]> MTFindProd 100000000 8 -1
+Sequential multiplication completed in 382 ms. Product = 1916
+Threaded multiplication with parent waiting for all children completed in 57 ms. Product = 1916
+Threaded multiplication with parent continually checking on children completed in 87 ms. Product = 1916
+Threaded multiplication with parent waiting on a semaphore completed in 57 ms. Product = 1916
+[reynolj@enif:34]> exit
+exit
+
+Script done on Wed 11 Mar 2020 11:29:18 AM PDT
