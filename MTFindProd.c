@@ -87,9 +87,6 @@ int main(int argc, char *argv[]){
     GenerateInput(arraySize, indexForZero);
     CalculateIndices(arraySize, gThreadCount, indices);
 
-    //Used for debugging
-    //printIndices(indices);
-
 	/*****************************************Single Thread: Sequential************************************************/
 	SetTime();
 	prod = SqFindProd(arraySize);
@@ -98,7 +95,6 @@ int main(int argc, char *argv[]){
 	/*****************************************MT: Parent waits for all children****************************************/
 	InitSharedVars();
 	SetTime();
-
     // Initialize attributes, and create threads
     for (i = 0; i < gThreadCount; i++)
     {
@@ -107,29 +103,23 @@ int main(int argc, char *argv[]){
         // Create threads
         pthread_create(&tid[i], &attr[i], ThFindProd, (void*) indices[i]);
     }
-
     // Parent waits for all threads using pthread_join
     for (i = 0; i < gThreadCount; i++)
     {
         pthread_join(tid[i], NULL);
     }
-
     prod = ComputeTotalProduct();
 	printf("Threaded multiplication with parent waiting for all children completed in %ld ms. Product = %d\n", GetTime(), prod);
 
 	/*************************************MT: Parent checks on children using busy-waiting loop************************/
 	InitSharedVars();
 	SetTime();
-
     // Initialize attributes, and create threads
     for (i = 0; i < gThreadCount; i++)
     {
-        // Initialize thread attributes
         pthread_attr_init(&attr[i]);
-        // Create threads
         pthread_create(&tid[i], &attr[i], ThFindProd, (void*) indices[i]);
     }
-
     // Parent continually check on all child threads
     volatile bool foundZero, allDone;
     do{
@@ -151,10 +141,6 @@ int main(int argc, char *argv[]){
                         pthread_cancel(tid[i]);
                     }
                 }
-                else
-                {
-                    pthread_join(tid[i], NULL);
-                }
             }
         }
     }while(!foundZero && !allDone);
@@ -163,11 +149,10 @@ int main(int argc, char *argv[]){
 	printf("Threaded multiplication with parent continually checking on children completed in %ld ms. Product = %d\n", GetTime(), prod);
 
 	/*********************************************MT: With Semaphores**************************************************/
-
-	InitSharedVars();
+    InitSharedVars();
 	// Initialize semaphores
-    sem_init(&mutex, 0, 1);
-    sem_init(&completed, 0, 1);
+    sem_init(&mutex, 0, 1); // initialized as unlocked
+    sem_init(&completed, 0, 0); // initialized as locked
     SetTime();
     // Initialize and create threads
     for (i = 0; i < gThreadCount; i++)
@@ -183,9 +168,8 @@ int main(int argc, char *argv[]){
     }
     prod = ComputeTotalProduct();
 	printf("Threaded multiplication with parent waiting on a semaphore completed in %ld ms. Product = %d\n", GetTime(), prod);
-    sem_destroy(&mutex);
 	sem_destroy(&completed);
-	printProds();
+    sem_destroy(&mutex);
 }
 
 void printIndices(int (*indices)[3]){
@@ -207,7 +191,6 @@ void printProds(){
 }
 
 // A regular sequential function to multiply all the elements in gData mod NUM_LIMIT
-// REMEMBER TO MOD BY NUM_LIMIT AFTER EACH MULTIPLICATION TO PREVENT YOUR PRODUCT VARIABLE FROM OVERFLOWING
 int SqFindProd(int size) {
     int i, prod = 1;
 
@@ -215,8 +198,6 @@ int SqFindProd(int size) {
     {
         if (gData[i] == 0)
         {
-            //"Your single thread multiplier must terminate as soon as a zero is found"
-            // prod = 0
             return 0;
         }
         else
@@ -228,7 +209,6 @@ int SqFindProd(int size) {
 }
 
 // Thread function that computes the product of all the elements in one division of the array mod NUM_LIMIT
-// REMEMBER TO MOD BY NUM_LIMIT AFTER EACH MULTIPLICATION TO PREVENT YOUR PRODUCT VARIABLE FROM OVERFLOWING
 // When it is done, this function should store the product in gThreadProd[threadNum] and set gThreadDone[threadNum] to true
 void* ThFindProd(void *param) {
 	int threadNum   = ((int*)param)[0];
@@ -251,11 +231,10 @@ void* ThFindProd(void *param) {
     }
 	gThreadProd[threadNum] = prod;
 	gThreadDone[threadNum] = true;
-	return NULL;
+    pthread_exit(NULL);
 }
 
 // Thread function that computes the product of all the elements in one division of the array mod NUM_LIMIT
-// REMEMBER TO MOD BY NUM_LIMIT AFTER EACH MULTIPLICATION TO PREVENT YOUR PRODUCT VARIABLE FROM OVERFLOWING
 // When it is done, this function should store the product in gThreadProd[threadNum]
 // If the product value in this division is zero, this function should post the "completed" semaphore
 // If the product value in this division is not zero, this function should increment gDoneThreadCount and
@@ -267,15 +246,9 @@ void* ThFindProdWithSemaphore(void *param) {
     int end         = ((int*)param)[2];
     int prod        = 1;
     int i;
-//    int sval;
 
     for (i = start; i <= end; i++)
     {
-//        sem_getvalue(&completed, &sval);
-//        if (sval != 0){
-//            return NULL;
-//        }
-
         if (gData[i] == 0)
         {
             prod = 0;
@@ -290,20 +263,17 @@ void* ThFindProdWithSemaphore(void *param) {
 
     if (prod == 0) {
         sem_post(&completed);
+        pthread_exit(NULL);
     }
 
-//    sem_getvalue(&completed, &sval);
-//    if (sval != 0){
-//        return NULL;
-//    }
-
     sem_wait(&mutex);
-    if (++gDoneThreadCount == gThreadCount-1)
+
+    if (++gDoneThreadCount == gThreadCount)
     {
         sem_post(&completed);
     }
     sem_post(&mutex);
-    return NULL;
+    pthread_exit(NULL);
 }
 
 int ComputeTotalProduct() {
