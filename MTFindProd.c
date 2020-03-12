@@ -34,7 +34,6 @@ bool gThreadDone[MAX_THREADS]; //Is this thread done? Used when the parent is co
 sem_t completed; //To notify parent that all threads have completed or one of them found a zero
 sem_t mutex; //Binary semaphore to protect the shared variable gDoneThreadCount
 
-int findProd(int start, int end); //Added by student. Helper for all ...FindProd() functions
 int SqFindProd(int size); //Sequential FindProduct (no threads) computes the product of all the elements in the array mod NUM_LIMIT
 void* ThFindProd(void *param); //Thread FindProduct but without semaphores
 void* ThFindProdWithSemaphore(void *param); //Thread FindProduct with semaphores
@@ -215,9 +214,9 @@ void CalculateIndices(int arraySize, int thrdCnt, int indices[MAX_THREADS][3]) {
 
 // A regular sequential function to multiply all the elements in gData mod NUM_LIMIT
 // if 0 is in gData, it returns 0 immediately
-int findProd(int start, int end){
+int SqFindProd(int size) {
     int i, prod = 1;
-    for (i = start; i <= end ; i++)
+    for (i = 0; i < size ; i++)
     {
         if (gData[i] == 0)
         {
@@ -231,19 +230,26 @@ int findProd(int start, int end){
     return prod;
 }
 
-// Wrapper for sequential product
-int SqFindProd(int size) {
-    int prod = findProd(0, size-1);
-    return prod;
-}
-
 // Thread function that computes the product of all the elements in one division of the array mod NUM_LIMIT
 void* ThFindProd(void *param) {
 	int threadNum   = ((int*)param)[0];
 	int start       = ((int*)param)[1];     // Division start
 	int end         = ((int*)param)[2];     // Division end
-	int prod        = findProd(start, end); // Calculate product in division
+    int prod        = 1;
+    int i;
 
+    for (i = start; i <= end ; i++) // Calculate division
+    {
+        if (gData[i] == 0)
+        {
+            prod = 0;
+            break;
+        }
+        else
+        {
+            prod = (prod * gData[i]) % NUM_LIMIT;
+        }
+    }
 	// Store the product in the global array: gThreadProd
 	gThreadProd[threadNum] = prod;
 	// Set state of thread to true in global array: gThreadDone
@@ -256,8 +262,21 @@ void* ThFindProdWithSemaphore(void *param) {
     int threadNum   = ((int*)param)[0];
     int start       = ((int*)param)[1];     // Division start
     int end         = ((int*)param)[2];     // Division end
-    int prod        = findProd(start, end); // Calculate product in division
+    int prod        = 1;
+    int i;
 
+    for (i = start; i <= end ; i++) // Calculate division
+    {
+        if (gData[i] == 0)
+        {
+            prod = 0;
+            break;
+        }
+        else
+        {
+            prod = (prod * gData[i]) % NUM_LIMIT;
+        }
+    }
     // Store the product in the global array: gThreadProd
     gThreadProd[threadNum] = prod;
     // If the product value in this division is zero, this function posts the "completed" semaphore and exits the thread
