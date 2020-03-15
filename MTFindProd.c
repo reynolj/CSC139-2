@@ -11,7 +11,7 @@
 */
 #include <stdio.h>
 #include <stdlib.h>
-#include <pthread.h>    // pthread_t, pthread_attr_t attr, pthread_init(), pthread_create() ...
+#include <pthread.h>    // pthread_t, pthread_attr_t attr, pthread_attr_init(), pthread_create() ...
 #include <sys/timeb.h>
 #include <semaphore.h>  // sem_t, sem_init(), sem_wait(), sem_post() ...
 #include <stdbool.h>    // bool, for portability
@@ -34,10 +34,13 @@ bool gThreadDone[MAX_THREADS]; //Is this thread done? Used when the parent is co
 sem_t completed; //To notify parent that all threads have completed or one of them found a zero
 sem_t mutex; //Binary semaphore to protect the shared variable gDoneThreadCount
 
+// Calculation functions
 int SqFindProd(int size); //Sequential FindProduct (no threads) computes the product of all the elements in the array mod NUM_LIMIT
 void* ThFindProd(void *param); //Thread FindProduct but without semaphores
 void* ThFindProdWithSemaphore(void *param); //Thread FindProduct with semaphores
 int ComputeTotalProduct(); //Multiply the division products to compute the total modular product
+
+// Helper functions
 void InitSharedVars(); //Initializes default values to gThreadDone, gThreadProd, gDoneThreadCount
 void GenerateInput(int size, int indexForZero); //Generate the input array
 void CalculateIndices(int arraySize, int thrdCnt, int indices[MAX_THREADS][3]); //Calculate the indices to divide the array into T divisions, one division per thread
@@ -144,7 +147,7 @@ int main(int argc, char *argv[]){
                 }
             }
         }
-    }while(!foundZero && !allDone); // do-while no zero product is found, and not all product divisions are done
+    }while(!foundZero && !allDone); // loop while no zero product is found, and not all product divisions are done
     prod = ComputeTotalProduct();
 	printf("Threaded multiplication with parent continually checking on children completed in %ld ms. Product = %d\n", GetTime(), prod);
 
@@ -170,9 +173,13 @@ int main(int argc, char *argv[]){
     }
     prod = ComputeTotalProduct();
 	printf("Threaded multiplication with parent waiting on a semaphore completed in %ld ms. Product = %d\n", GetTime(), prod);
-	// Clean up semaphores
+	// Clean up
 	sem_destroy(&completed);
     sem_destroy(&mutex);
+    for (i = 0; i < gThreadCount; i++)
+    {
+        pthread_attr_destroy(&attr[i]);
+    }
 }
 
 // Function that fills the gData array with random numbers between 1 and MAX_RANDOM_NUMBER
@@ -289,7 +296,7 @@ void* ThFindProdWithSemaphore(void *param) {
     // If the product in this division is not zero, this function should increment gDoneThreadCount
     gDoneThreadCount++;
     // If it is the last thread to be done, the "completed" semaphore is posted
-    if ( gDoneThreadCount == gThreadCount)
+    if (gDoneThreadCount == gThreadCount)
     {
         sem_post(&completed);
     }
@@ -297,6 +304,7 @@ void* ThFindProdWithSemaphore(void *param) {
     pthread_exit(NULL);
 }
 
+// Calculates the product of the partitioned products
 int ComputeTotalProduct() {
     int i, prod = 1;
 
@@ -308,6 +316,7 @@ int ComputeTotalProduct() {
 	return prod;
 }
 
+// Sets default values to vars used by threads
 void InitSharedVars() {
 	int i;
 
