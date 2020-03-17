@@ -3,9 +3,7 @@
  * CSC 139 Section 5
  * OSs Tested on: Linux
  * Linux CPU: 4 cores, Intel(R) Core(TM) i7-6700 CPU @ 3.40GHz
-*/
-
-/*
+ *
  * Compile options:
  * g++ -O3 MTFindProd.c -o MTFindProd -lpthread
 */
@@ -38,26 +36,25 @@ sem_t mutex; //Binary semaphore to protect the shared variable gDoneThreadCount
 int SqFindProd(int size); //Sequential FindProduct (no threads) computes the product of all the elements in the array mod NUM_LIMIT
 void* ThFindProd(void *param); //Thread FindProduct but without semaphores
 void* ThFindProdWithSemaphore(void *param); //Thread FindProduct with semaphores
-int ComputeTotalProduct(); //Multiply the division products to compute the total modular product
+int ComputeTotalProduct(void); //Multiply the division products to compute the total modular product
 
 // Helper functions
-void InitSharedVars(); //Initializes default values to gThreadDone, gThreadProd, gDoneThreadCount
+void InitSharedVars(void); //Initializes default values to gThreadDone, gThreadProd, gDoneThreadCount
 void GenerateInput(int size, int indexForZero); //Generate the input array
 void CalculateIndices(int arraySize, int thrdCnt, int indices[MAX_THREADS][3]); //Calculate the indices to divide the array into T divisions, one division per thread
 int GetRand(int x, int y); //Get a random number between x and y
 
-//Timing functions
+// Timing functions
 long GetMilliSecondTime(struct timeb timeBuf);
 long GetCurrentTime(void);
 void SetTime(void);
 long GetTime(void);
 
-//Debugging Functions
+// Debugging Functions
 void printIndices(int (*indices)[3]); //Displays indices array. Used for debugging.
-void printProds(); // Displays products of individual divisions
+void printProds(void); // Displays products of individual divisions
 
-int main(int argc, char *argv[]){
-
+int main(int argc, char *argv[]) {
 	pthread_t tid[MAX_THREADS];
 	pthread_attr_t attr[MAX_THREADS];
 	int indices[MAX_THREADS][3];
@@ -305,7 +302,7 @@ void* ThFindProdWithSemaphore(void *param) {
 }
 
 // Calculates the product of the partitioned products
-int ComputeTotalProduct() {
+int ComputeTotalProduct(void) {
     int i, prod = 1;
 
 	for(i=0; i<gThreadCount; i++)
@@ -317,7 +314,7 @@ int ComputeTotalProduct() {
 }
 
 // Sets default values to vars used by threads
-void InitSharedVars() {
+void InitSharedVars(void) {
 	int i;
 
 	for(i=0; i<gThreadCount; i++){
@@ -369,7 +366,7 @@ void printIndices(int (*indices)[3]){
     }
 }
 
-void printProds(){
+void printProds(void){
     int i;
     printf("%-5s%-10s\n", "Thd", "Prod");
     for (i = 0; i < gThreadCount; i++)
